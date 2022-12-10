@@ -8,48 +8,92 @@ std::string buf;
 int main(int argc, char** argv){
     (void)argc; // Unused
     (void)argv; // Unused
-    input.open("input");
     char opponent;
     char player;
+    char playersel;
     unsigned int score {0};
-    input >> opponent;
-    input >> player;
     const char* const str_win = "Win";
     const char* const str_loss = "Lose";
     const char* const str_tie = "Tie";
 
     const char* outcome;
+
+    input.open("input");
+    input >> opponent;
+    input >> player;
     while(!input.eof()){
-        // Resolve outcome
-        switch(opponent){
-            case 'A':       // Rock
-                if (player == 'Y'){score += 6; outcome = str_win;} // Win
-                if (player == 'X'){score += 3; outcome = str_tie;} else {outcome = str_loss;}
+
+        // Score outcome
+        switch(player){
+            case 'Z':
+                score += 6;
+                outcome = str_win;
                 break;
-            case 'B':       // Paper
-                if (player == 'Z'){score += 6; outcome = str_win;} // Win
-                if (player == 'Y'){score += 3; outcome = str_tie;} else {outcome = str_loss;}
+            case 'Y':
+                score += 3;
+                outcome = str_tie;
                 break;
-            case 'C':       // Scissors
-                if (player == 'X'){score += 6; outcome = str_win;} // Win
-                if (player == 'Z'){score += 3; outcome = str_tie;} else {outcome = str_loss;}
+            default:
+                outcome = str_loss;
                 break;
         }
 
+        // Determine Player selection
+        switch(opponent){
+            case 'A':       // Rock
+                switch(player){
+                    case 'Z': // win
+                        playersel = 'P';
+                        break;
+                    case 'Y': // tie
+                        playersel = 'R';
+                        break;
+                    case 'X': // lose
+                        playersel = 'S';
+                        break;
+                }
+                break; 
+            case 'B':       // Paper
+                 switch(player){
+                    case 'Z': // win
+                        playersel = 'S';
+                        break;
+                    case 'Y': // tie
+                        playersel = 'P';
+                        break;
+                    case 'X': // lose
+                        playersel = 'R';
+                        break;
+                }
+                break;
+           case 'C':       // Scissors
+                  switch(player){
+                    case 'Z': // win
+                        playersel = 'R';
+                        break;
+                    case 'Y': // tie
+                        playersel = 'S';
+                        break;
+                    case 'X': // lose
+                        playersel = 'P';
+                        break;
+                }
+      }
+
         // Score Player selection
-        switch(player){
-            case 'X':           // Rock
+        switch(playersel){
+            case 'R':           // Rock
                 score += 1;
                 break;
-            case 'Y':           // Paper
+            case 'P':           // Paper
                 score += 2;
                 break;
-            case 'Z':           // Scissors
+            case 'S':           // Scissors
                 score += 3;
                 break;
         }
         // std::cout << "First line of input:\n";
-        printf("%c %c %s\n", opponent, player, outcome);
+        printf("%c %c %s - Running score: %d\n", opponent, player, outcome, score);
         input >> opponent;
         input >> player;
     }
