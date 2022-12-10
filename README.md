@@ -20,4 +20,12 @@ The programs expect the input file to named `input` with no extension. You can r
 I learned about the priority queue doing AoC last year, so it seemed like a good tool to reach for here. Using the std::greater comparison so that the smallest value always ends up at the top, then popping it off to make sure that I have the three larget values remaining. 
 
 ### Part 2
-I had know idea grabbing the top three was going to be the next part, but since I used a priority queue in part one it was trivial to add a quick sum loop to add together the top three most calorie laden elves. There may be a way to use the stl algorithms to do the sum in a single line, but I will have to do some more research.
+I had no idea grabbing the top three was going to be the next part, but since I used a priority queue in part one it was trivial to add a quick sum loop to add together the top three most calorie laden elves. There may be a way to use the stl algorithms to do the sum in a single line, but I will have to do some more research.
+
+
+## Day 2
+### Part 1
+This one wasn't too bad, just grabbing the two inputs and determining if it was a win, tie or loss.
+
+### Part 2
+This was a bigger tear up than I was hoping, had to add a player selection variable and some nested `switch-case` statements to basically build a state machine. Had a couple missteps where I forgot to `break` the out switch statement, which was causing fallthrough and messing the scoring up.
