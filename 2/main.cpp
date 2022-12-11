@@ -19,6 +19,9 @@ int main(int argc, char** argv){
     const char* outcome;
 
     input.open("input");
+    if(!input){
+        throw std::exception("Failed to open input");
+    }
     input >> opponent;
     input >> player;
     while(!input.eof()){
