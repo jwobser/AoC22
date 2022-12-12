@@ -12,3 +12,7 @@ add_executable(AoC22d2p2 2/main.cpp)
 add_executable(d3p1 3/main.cpp 3/main.hpp)
 
 add_executable(t3 3/tests/test.cpp)
+
+enable_testing()
+
+add_test(NAME d3_Unit_tests COMMAND $<TARGET_FILE:t3> -s)

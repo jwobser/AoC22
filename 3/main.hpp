@@ -3,6 +3,7 @@
 //
 #include <string>
 #include <unordered_set>
+#include <vector>
 
 #ifndef AOC22_MAIN_HPP
 #define AOC22_MAIN_HPP
