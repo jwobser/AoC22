@@ -7,8 +7,6 @@
 #ifndef AOC22_MAIN_HPP
 #define AOC22_MAIN_HPP
 
-size_t getlen(std::string s);
-
 int score_priority(const char& letter) {
     if(letter >= 'a' && letter <= 'z'){
         return 1 + static_cast<int>(letter - 'a');
@@ -17,7 +15,6 @@ int score_priority(const char& letter) {
     }
     return 0;
 }
-
 
 bool check_len(const std::string_view& s){
     if((s.length() % 2) != 0){
