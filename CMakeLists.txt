@@ -16,6 +16,7 @@ add_executable(t3 3/tests/test.cpp)
 add_executable(d3p2 3/main2.cpp)
 
 add_executable(d4p1 4/main.cpp)
+add_executable(d4p2 4/main2.cpp)
 
 enable_testing()
 
