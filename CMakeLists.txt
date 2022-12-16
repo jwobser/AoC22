@@ -1,6 +1,15 @@
 cmake_minimum_required(VERSION 3.24)
 project(AoC22)
 set(CMAKE_CXX_STANDARD 20)
+
+include(FetchContent)
+FetchContent_Declare(
+        googletest
+        URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
 # add_compile_options(/Wall)
 
 add_executable(AoC22d1 1/main.cpp)
@@ -17,6 +26,14 @@ add_executable(d3p2 3/main2.cpp)
 
 add_executable(d4p1 4/main.cpp)
 add_executable(d4p2 4/main2.cpp)
+
+add_executable(d15p1 15/main.cpp 15/helpers.cpp 15/helpers.h)
+add_executable(t15 15/tests/gtest.cpp 15/helpers.cpp 15/helpers.h)
+
+target_link_libraries(t15 GTest::gtest_main)
+
+include(GoogleTest)
+gtest_discover_tests(t15)
 
 enable_testing()
 
