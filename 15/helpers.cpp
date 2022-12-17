@@ -6,12 +6,11 @@
 #include <cmath>
 
 int Sensor::manhattan_dist(void) const {
-    return abs((x - nearest_beacon.x)) + abs((y - nearest_beacon.y));
+    return mandist;
 }
 
 int Sensor::width_at_target_row(int target_row) const {
     const int dist = abs(target_row - y);
-    const int mandist = this->manhattan_dist();
     if (dist > mandist){
         return 0;
     }
@@ -31,6 +30,11 @@ ExclusionSpan Sensor::get_span_at_target(int target_row) const {
 std::ostream& operator<<(std::ostream &os, const Sensor &s) {
     os << std::format("{}, {} :: {}, {}", s.x, s.y, s.nearest_beacon.x, s.nearest_beacon.y);
     return os;
+}
+
+Sensor::Sensor(int x, int y, const Beacon &nearestBeacon)
+    : x(x), y(y), nearest_beacon(nearestBeacon) {
+    mandist = abs(nearestBeacon.x - x) + abs(nearestBeacon.y - y);
 }
 
 bool ExclusionSpan::overlap(ExclusionSpan other) const {

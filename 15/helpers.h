@@ -21,11 +21,17 @@ struct ExclusionSpan{
 struct Sensor{
     int x, y;
     Beacon nearest_beacon;
+
+    Sensor(int x, int y, const Beacon &nearestBeacon);
+
     int manhattan_dist(void) const;
     int width_at_target_row(int target_row) const;
     ExclusionSpan get_span_at_target(int target_row) const;
 
     friend std::ostream& operator<<(std::ostream& os, const Sensor& s);
+
+private:
+    int mandist;
 };
 
 #endif //AOC22_HELPERS_H

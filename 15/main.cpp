@@ -51,7 +51,7 @@ int main(int argc, char** argv){
     }
 
     for (const auto& span : spans){
-        std::cout << span << '\n';
+        // std::cout << span << '\n';
     }
 
     auto combined_spans = combine_exclusions(spans);
@@ -63,12 +63,14 @@ int main(int argc, char** argv){
 
 std::vector<ExclusionSpan> combine_exclusions(std::vector<ExclusionSpan> input){
     std::vector<ExclusionSpan> combined;
+    combined.push_back(input[0]);
     for(auto span : input){
         // Check if there are any overlaps.
         // FIXME Never executes because combined is empty
         for(auto& cspan : combined){
             // no overlap
             if((span.end < cspan.start) || (span.start > cspan.end)){
+                combined.push_back(span);
                 continue;
             }
             // complete overlap
