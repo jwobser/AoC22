@@ -3,9 +3,10 @@
 #include <string>
 #include <regex>
 #include <cmath>
-#include "helpers.h"
 #include <vector>
 #include <format>
+#include "helpers.h"
+#include "combine.h"
 
 std::ifstream input;
 std::string buf;
@@ -13,7 +14,6 @@ std::string buf;
 const int TARGET_ROW{2'000'000};
 
 
-std::vector<ExclusionSpan> combine_exclusions(std::vector<ExclusionSpan>);
 
 int main(int argc, char** argv){
     std::regex pattern("Sensor at x=(-?[0-9]+), y=(-?[0-9]+).*beacon.*x=(-?[0-9]+), y=(-?[0-9]+)", std::regex::optimize);
@@ -63,48 +63,3 @@ int main(int argc, char** argv){
 }
 
 
-std::vector<ExclusionSpan> combine_exclusions(std::vector<ExclusionSpan> input){
-    std::vector<ExclusionSpan> combined;
-    combined.push_back(input[0]);
-    for (const auto& span : combined){
-        std::cout << span << '\n';
-    }
-    for(auto span : input){
-        // Check if there are any overlaps.
-        // FIXME Never executes because combined is empty
-        // TODO Refactor loop to deal with iterator invalidation.
-        // TODO Break out into separate file
-        // TODO Unitttest
-        for(auto& cspan : combined){
-            // no overlap
-            if((span.end < cspan.start) || (span.start > cspan.end)){
-//                std::cout << "No overlap \n";
-                combined.push_back(span);
-                continue;
-            }
-            // complete overlap
-            if((cspan.start <= span.start) && (cspan.end >= span.end)){
-//                std::cout << "Complete overlap \n";
-                continue;
-            }
-            // partial overlaps
-            // Target span expands combined span to left
-            if((span.start < cspan.start) && (span.end >= cspan.start) && (span.end <= cspan.end)){
-//                std::cout << "Expand Left\n";
-               cspan.start = span.start;
-            }
-            // Target span expands combined span to the right
-            if((span.end > cspan.end) && (span.start >= cspan.start) && (span.start <= cspan.end)){
-//                std::cout << "Expand Right\n";
-                cspan.end = span.end;
-            }
-        }
-
-        // Finally, recheck all ranges for any overlap
-
-    }
-    for (const auto& span : combined){
-        std::cout << span << '\n';
-    }
-    return combined;
-}

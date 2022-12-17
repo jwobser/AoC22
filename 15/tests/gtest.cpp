@@ -4,6 +4,7 @@
 
 #include <gtest/gtest.h>
 #include "../helpers.h"
+#include "../combine.h"
 
 class SensorTest : public ::testing::Test{
 protected:
@@ -40,4 +41,39 @@ TEST_F(SensorTest, GetSpan) {
     span = s.get_span_at_target(50);
     EXPECT_EQ(span.start, 0);
     EXPECT_EQ(span.end, 0);
+}
+
+TEST(SpanCombination, AddOne){
+    std::vector<ExclusionSpan> input = {{0,1}};
+    auto combined = combine_exclusions(input);
+    EXPECT_EQ(combined.size(), 1);
+}
+
+TEST(SpanCombination, AddTwo){
+    std::vector<ExclusionSpan> input = {{0,1}, {2,3}};
+    auto combined = combine_exclusions(input);
+    EXPECT_EQ(combined.size(), 2);
+}
+
+TEST(SpanCombination, AddN){
+    std::vector<ExclusionSpan> input = {{0,1}, {2,3}, {5,6}};
+    auto combined = combine_exclusions(input);
+    EXPECT_EQ(combined.size(), 3);
+    input.push_back({7,8});
+    combined = combine_exclusions(input);
+    EXPECT_EQ(combined.size(), 4);
+}
+
+TEST(SpanCombination, TwoOverlappingLeft){
+    std::vector<ExclusionSpan> input = {{0,1}, {1,3}};
+    auto combined = combine_exclusions(input);
+    ASSERT_EQ(combined.size(), 1);
+    EXPECT_EQ(combined[0].start, 0);
+    EXPECT_EQ(combined[0].end, 3);
+}
+
+TEST(SpanCombination, ReserveSpace){
+    std::vector<ExclusionSpan> input = {{0,1}, {1,3}};
+    auto combined = combine_exclusions(input);
+    EXPECT_EQ(combined.capacity(), 2);
 }
