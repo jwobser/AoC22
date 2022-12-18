@@ -50,7 +50,11 @@ int main(int argc, char** argv){
         const int bx = stoi(values[3]);
         const int by = stoi(values[4]);
         sensors.emplace_back(Sensor{sx, sy, Beacon{bx, by}});
-        // std::cout << sensors.back() << "\n";
+        std::cout << sensors.back();
+        std::cout << "man dist: " << sensors.back().manhattan_dist() << '\n';
+        std::cout << "min y reach: " << sensors.back().y - sensors.back().manhattan_dist() << "\n";
+        std::cout << "max y reach: " << sensors.back().y + sensors.back().manhattan_dist() << "\n";
+        std::cout << sensors.back().get_span_at_target(TARGET_ROW) << "\n\n";
 
 
         std::getline(input, buf);

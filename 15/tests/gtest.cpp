@@ -113,3 +113,20 @@ TEST(SpanCombination, ReserveSpace){
     auto combined = combine_exclusions(input);
     EXPECT_EQ(combined.capacity(), 2);
 }
+
+TEST(SpanCombination, Combo){
+    std::vector<ExclusionSpan> input = {{1,1}, {1,2}, {3,3}, {4,7},{5,6}};
+    // Expected output [1,2] [3,3] [4,7]
+    auto combined = combine_exclusions(input);
+    for(const auto& span : combined){
+        std::cout << span << ' ';
+    }
+    std::cout << '\n';
+    EXPECT_EQ(combined.size(), 3);
+    EXPECT_EQ(combined[0].start, 1);
+    EXPECT_EQ(combined[0].end, 2);
+    EXPECT_EQ(combined[1].start, 3);
+    EXPECT_EQ(combined[1].end, 3);
+    EXPECT_EQ(combined[2].start, 4);
+    EXPECT_EQ(combined[2].end, 7);
+}

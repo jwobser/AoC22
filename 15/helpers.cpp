@@ -4,6 +4,7 @@
 #include "helpers.h"
 // #include <format>
 #include <cmath>
+#include <iostream>
 
 int Sensor::manhattan_dist(void) const {
     return mandist;
@@ -36,6 +37,9 @@ std::ostream& operator<<(std::ostream &os, const Sensor &s) {
 Sensor::Sensor(int x, int y, const Beacon &nearestBeacon)
     : x(x), y(y), nearest_beacon(nearestBeacon) {
     mandist = abs(nearestBeacon.x - x) + abs(nearestBeacon.y - y);
+    const int dx = abs(nearestBeacon.x - x);
+    const int dy = abs(nearestBeacon.y - y);
+//    std::cout << "mandist: " << mandist << "\t\tdx: " << dx << "\tdy: " << dy << '\n';
 }
 
 bool ExclusionSpan::overlap(ExclusionSpan other) const {
