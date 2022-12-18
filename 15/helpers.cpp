@@ -2,7 +2,7 @@
 // Created by James Wobser on 12/16/2022.
 //
 #include "helpers.h"
-#include <format>
+// #include <format>
 #include <cmath>
 
 int Sensor::manhattan_dist(void) const {
@@ -28,7 +28,8 @@ ExclusionSpan Sensor::get_span_at_target(int target_row) const {
 }
 
 std::ostream& operator<<(std::ostream &os, const Sensor &s) {
-    os << std::format("{}, {} :: {}, {}", s.x, s.y, s.nearest_beacon.x, s.nearest_beacon.y);
+    os << s.x << ", " << s.y << " :: " << s.nearest_beacon.x << ", " << s.nearest_beacon.y << '\n';
+    // os << std::format("{}, {} :: {}, {}", s.x, s.y, s.nearest_beacon.x, s.nearest_beacon.y);
     return os;
 }
 
@@ -49,6 +50,7 @@ bool ExclusionSpan::overlap(ExclusionSpan other) const {
 }
 
 std::ostream &operator<<(std::ostream &os, const ExclusionSpan &s) {
-    os << std::format("[{} - {}]", s.start, s.end);
+    // os << std::format("[{} - {}]", s.start, s.end);
+    os << "[" << s.start << ", " << s.end << "]";
     return os;
 }
