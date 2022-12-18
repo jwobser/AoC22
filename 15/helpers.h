@@ -15,6 +15,7 @@ struct ExclusionSpan{
     int start;
     int end;
     bool overlap(ExclusionSpan) const;
+    int width(void) const{ return 1 + end-start;}
     friend std::ostream& operator<<(std::ostream& os, const ExclusionSpan& s);
 };
 

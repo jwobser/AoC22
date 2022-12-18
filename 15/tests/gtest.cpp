@@ -9,10 +9,12 @@
 class SensorTest : public ::testing::Test{
 protected:
     Sensor s{8,9,{10,11}};
+    Sensor s2{20,30,{20,40}};
 };
 
 TEST_F(SensorTest, Manhattan_Distance){
     EXPECT_EQ(s.manhattan_dist(), 4);
+    EXPECT_EQ(s2.manhattan_dist(), 10);
 }
 
 TEST_F(SensorTest, Span_width){
@@ -20,19 +22,35 @@ TEST_F(SensorTest, Span_width){
     EXPECT_EQ(s.width_at_target_row(10), 7);
     EXPECT_EQ(s.width_at_target_row(13), 1);
     EXPECT_EQ(s.width_at_target_row(5), 1);
+    EXPECT_EQ(s.width_at_target_row(13), 1);
     EXPECT_EQ(s.width_at_target_row(4), 0);
     EXPECT_EQ(s.width_at_target_row(3), 0);
     EXPECT_EQ(s.width_at_target_row(14), 0);
+    /* -- s2 -- */
+    EXPECT_EQ(s2.width_at_target_row(30), 21);
 }
 
 TEST_F(SensorTest, GetSpan) {
     auto span = s.get_span_at_target(9);
-    EXPECT_EQ(span.start, 3);
-    EXPECT_EQ(span.end, 13);
-
-    span = s.get_span_at_target(8);
     EXPECT_EQ(span.start, 4);
     EXPECT_EQ(span.end, 12);
+
+    span = s.get_span_at_target(8);
+    EXPECT_EQ(span.start, 5);
+    EXPECT_EQ(span.end, 11);
+
+
+    span = s.get_span_at_target(7);
+    EXPECT_EQ(span.start, 6);
+    EXPECT_EQ(span.end, 10);
+
+    span = s.get_span_at_target(5);
+    EXPECT_EQ(span.start, 8);
+    EXPECT_EQ(span.end, 8);
+
+    span = s.get_span_at_target(3);
+    EXPECT_EQ(span.start, 0);
+    EXPECT_EQ(span.end, 0);
 
     span = s.get_span_at_target(1);
     EXPECT_EQ(span.start, 0);
@@ -41,6 +59,16 @@ TEST_F(SensorTest, GetSpan) {
     span = s.get_span_at_target(50);
     EXPECT_EQ(span.start, 0);
     EXPECT_EQ(span.end, 0);
+
+    span = s2.get_span_at_target(50);
+    EXPECT_EQ(span.start, 0);
+    EXPECT_EQ(span.end, 0);
+
+    /*
+    span = s2.get_span_at_target(30);
+    EXPECT_EQ(span.start, 9);
+    EXPECT_EQ(span.end, 31);
+     */
 }
 
 TEST(SpanCombination, AddOne){

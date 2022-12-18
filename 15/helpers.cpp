@@ -18,12 +18,12 @@ int Sensor::width_at_target_row(int target_row) const {
 }
 
 ExclusionSpan Sensor::get_span_at_target(int target_row) const {
-    const int width = this->width_at_target_row(target_row);
+    const int width = width_at_target_row(target_row);
     if(width == 0){
         return {0,0};
     }
-    const int start = x - (width / 2) - 1;
-    const int end = x + (width / 2) + 1;
+    const int start = x - (width - 1) / 2 ;
+    const int end = x + (width - 1)  / 2 ;
     return ExclusionSpan {start, end};
 }
 
