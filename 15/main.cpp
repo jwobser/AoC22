@@ -13,8 +13,6 @@ std::string buf;
 
 const int TARGET_ROW{2'000'000};
 
-
-
 int main(int argc, char** argv){
     std::regex pattern("Sensor at x=(-?[0-9]+), y=(-?[0-9]+).*beacon.*x=(-?[0-9]+), y=(-?[0-9]+)", std::regex::optimize);
 //    std::cout << "Compiled regex\n";
@@ -61,5 +59,3 @@ int main(int argc, char** argv){
         std::cout << span << '\n';
     }
 }
-
-

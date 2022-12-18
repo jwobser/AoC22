@@ -64,12 +64,20 @@ TEST(SpanCombination, AddN){
     EXPECT_EQ(combined.size(), 4);
 }
 
-TEST(SpanCombination, TwoOverlappingLeft){
-    std::vector<ExclusionSpan> input = {{0,1}, {1,3}};
+TEST(SpanCombination, ExpandLeft){
+    std::vector<ExclusionSpan> input = {{2,3}, {1,3}};
     auto combined = combine_exclusions(input);
     ASSERT_EQ(combined.size(), 1);
-    EXPECT_EQ(combined[0].start, 0);
+    EXPECT_EQ(combined[0].start, 1);
     EXPECT_EQ(combined[0].end, 3);
+}
+
+TEST(SpanCombination, ExpandRight){
+    std::vector<ExclusionSpan> input = {{2,3}, {2,5}};
+    auto combined = combine_exclusions(input);
+    ASSERT_EQ(combined.size(), 1);
+    EXPECT_EQ(combined[0].start, 2);
+    EXPECT_EQ(combined[0].end, 5);
 }
 
 TEST(SpanCombination, ReserveSpace){
