@@ -5,6 +5,9 @@
 #ifndef AOC22_HELPERS_H
 #define AOC22_HELPERS_H
 #include <fstream>
+#include <string>
+#include <vector>
+
 
 struct Beacon{
     int x;
@@ -34,5 +37,7 @@ struct Sensor{
 private:
     int mandist;
 };
+
+bool read_input(std::string, std::vector<Sensor>&);
 
 #endif //AOC22_HELPERS_H

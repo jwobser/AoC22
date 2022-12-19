@@ -5,6 +5,10 @@
 // #include <format>
 #include <cmath>
 #include <iostream>
+#include <regex>
+#include <string>
+
+extern const int TARGET_ROW;
 
 int Sensor::manhattan_dist(void) const {
     return mandist;
@@ -57,4 +61,34 @@ std::ostream &operator<<(std::ostream &os, const ExclusionSpan &s) {
     // os << std::format("[{} - {}]", s.start, s.end);
     os << "[" << s.start << ", " << s.end << "]";
     return os;
+}
+
+
+
+bool read_input(std::string f, std::vector<Sensor>& v){
+    std::string buf;
+    std::ifstream input;
+    std::regex pattern("Sensor at x=(-?[0-9]+), y=(-?[0-9]+).*beacon.*x=(-?[0-9]+), y=(-?[0-9]+)", std::regex::optimize);
+
+    input.open(f);
+
+    std::getline(input, buf);
+    while(!input.eof()){
+        std::smatch values;
+        std::regex_match(buf, values, pattern);
+        const int sx = stoi(values[1]);
+        const int sy = stoi(values[2]);
+        const int bx = stoi(values[3]);
+        const int by = stoi(values[4]);
+        v.emplace_back(Sensor{sx, sy, Beacon{bx, by}});
+        std::cout << v.back();
+        std::cout << "man dist: " << v.back().manhattan_dist() << '\n';
+        std::cout << "min y reach: " << v.back().y - v.back().manhattan_dist() << "\n";
+        std::cout << "max y reach: " << v.back().y + v.back().manhattan_dist() << "\n";
+        std::cout << v.back().get_span_at_target(TARGET_ROW) << "\n\n";
+
+
+        std::getline(input, buf);
+    }
+    return true;
 }
