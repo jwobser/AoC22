@@ -31,11 +31,14 @@ add_executable(d4p2 4/main2.cpp)
 
 add_executable(d15p1 15/main.cpp 15/helpers.cpp 15/helpers.h 15/combine.cpp 15/combine.h)
 add_executable(t15 15/tests/gtest.cpp 15/helpers.cpp 15/helpers.h 15/combine.cpp 15/combine.h)
+add_executable(e15 15/tests/example.cpp 15/helpers.cpp 15/helpers.h 15/combine.cpp 15/combine.h)
 
 target_link_libraries(t15 GTest::gtest_main)
+target_link_libraries(e15 GTest::gtest_main)
 
 include(GoogleTest)
 gtest_discover_tests(t15)
+gtest_discover_tests(e15)
 
 enable_testing()
 

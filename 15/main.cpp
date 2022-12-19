@@ -45,7 +45,7 @@ int main(int argc, char** argv){
     auto combined_spans = combine_exclusions(spans);
      std::cout << " ------------ Combined Spans ------------\n";
     for (const auto& span : combined_spans){
-        std::cout << span << '\n';
+        std::cout << span << ' ' << span.width() << '\n';
     }
     // std::cout << std::reduce(combined_spans.begin(), combined_spans.end(), 0, [](int lhs, ExclusionSpan& rhs){return rhs.width() + lhs;}) << "\n";
 }

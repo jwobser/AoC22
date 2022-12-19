@@ -8,7 +8,9 @@
 #include <regex>
 #include <string>
 
-extern const int TARGET_ROW;
+
+
+extern int TARGET_ROW;
 
 int Sensor::manhattan_dist(void) const {
     return mandist;
@@ -81,11 +83,13 @@ bool read_input(std::string f, std::vector<Sensor>& v){
         const int bx = stoi(values[3]);
         const int by = stoi(values[4]);
         v.emplace_back(Sensor{sx, sy, Beacon{bx, by}});
+        /*
         std::cout << v.back();
         std::cout << "man dist: " << v.back().manhattan_dist() << '\n';
         std::cout << "min y reach: " << v.back().y - v.back().manhattan_dist() << "\n";
         std::cout << "max y reach: " << v.back().y + v.back().manhattan_dist() << "\n";
         std::cout << v.back().get_span_at_target(TARGET_ROW) << "\n\n";
+        */
 
 
         std::getline(input, buf);
