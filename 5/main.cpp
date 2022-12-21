@@ -59,15 +59,15 @@ void printstack(void){
     std::cout << '\n';
 }
 
-int main(int argc, char** argv){
-    (void)argc; // Unused
-    (void)argv; // Unused
+int main(int argc, char** argv) {
+    (void) argc; // Unused
+    (void) argv; // Unused
     input.open("input");
-    for(int i{0}; i < MAX_HEIGHT; i++){
+    for (int i{0}; i < MAX_HEIGHT; i++) {
         std::getline(input, buf);
-        for(int j{0}; j < STACK_COUNT; j++){
+        for (int j{0}; j < STACK_COUNT; j++) {
             int letterpos = 1 + (4 * j);
-            if(buf[letterpos] != ' '){
+            if (buf[letterpos] != ' ') {
                 stacks[j].push_front(buf[letterpos]);
             }
         }
@@ -79,7 +79,7 @@ int main(int argc, char** argv){
     std::getline(input, buf);
 
     int movecount{0};
-    while(!input.eof()){
+    while (!input.eof()) {
         auto op = parseline(buf);
         moveletters(op);
         movecount++;
@@ -90,24 +90,8 @@ int main(int argc, char** argv){
 
     std::cout << "move count: " << movecount << '\n';
 
-    for(const auto dq : stacks){
+    for (const auto dq: stacks) {
         std::cout << dq.back();
     }
     std::cout << '\n';
-
-    /*
-    while(!input.eof()){
-        std::smatch values;
-        std::regex_match(buf, values, pattern);
-        // std::cout << "Number of matches: " <<  values.size();
-        CleanAssignment assign1 {stoi(values[1].str()), stoi(values[2].str())};
-        CleanAssignment assign2 {stoi(values[3].str()), stoi(values[4].str())};
-        // std::cout << "Overlap: " << std::boolalpha << assign1.overlap(assign2) << '\n';
-        if (assign1.overlap(assign2)){++numOverlaps;}
-        // printf("\t %d %d %d %d\n", stoi(values[1].str()), stoi(values[2].str()), stoi(values[3].str()), stoi(values[4].str()));
-        input >> buf;
-    }
-    std::cout << "Number of overlaps: " << numOverlaps << '\n';
-     */
 }
-
