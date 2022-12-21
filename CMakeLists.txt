@@ -32,6 +32,7 @@ add_executable(d4p2 4/main2.cpp)
 add_executable(d5p1 5/main.cpp)
 add_executable(d5p2 5/main2.cpp)
 
+add_executable(d6p1 6/main.cpp)
 
 add_executable(d15p1 15/main.cpp 15/helpers.cpp 15/helpers.h 15/combine.cpp 15/combine.h)
 add_executable(t15 15/tests/gtest.cpp 15/helpers.cpp 15/helpers.h 15/combine.cpp 15/combine.h)
