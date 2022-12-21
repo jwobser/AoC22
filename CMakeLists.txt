@@ -29,8 +29,8 @@ add_executable(d3p2 3/main2.cpp)
 add_executable(d4p1 4/main.cpp)
 add_executable(d4p2 4/main2.cpp)
 
-add_executable(d5p1 5/main.cpp)
-add_executable(d5p2 5/main2.cpp)
+# add_executable(d5p1 5/main.cpp)
+# add_executable(d5p2 5/main2.cpp)
 
 add_executable(d6p1 6/main.cpp)
 
