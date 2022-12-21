@@ -33,7 +33,6 @@ void moveletters(int src, int dest, int count){
     src -= 1;
     dest -= 1;
 
-    int idx = stacks[src].size() - count;
     for(int i {0}; i < count; i++){
         stacks[dest].push_back(stacks[src].back());
         stacks[src].pop_back();

@@ -97,20 +97,5 @@ int main(int argc, char** argv){
         std::cout << dq.back();
     }
     std::cout << '\n';
-
-    /*
-    while(!input.eof()){
-        std::smatch values;
-        std::regex_match(buf, values, pattern);
-        // std::cout << "Number of matches: " <<  values.size();
-        CleanAssignment assign1 {stoi(values[1].str()), stoi(values[2].str())};
-        CleanAssignment assign2 {stoi(values[3].str()), stoi(values[4].str())};
-        // std::cout << "Overlap: " << std::boolalpha << assign1.overlap(assign2) << '\n';
-        if (assign1.overlap(assign2)){++numOverlaps;}
-        // printf("\t %d %d %d %d\n", stoi(values[1].str()), stoi(values[2].str()), stoi(values[3].str()), stoi(values[4].str()));
-        input >> buf;
-    }
-    std::cout << "Number of overlaps: " << numOverlaps << '\n';
-     */
 }
 
