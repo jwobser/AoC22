@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#inlucde <exception>
 
 std::ifstream input;
 std::string buf;
@@ -20,7 +21,7 @@ int main(int argc, char** argv){
 
     input.open("input");
     if(!input){
-        throw std::exception("Failed to open input");
+        throw std::runtime_error("Failed to open input");
     }
     input >> opponent;
     input >> player;
