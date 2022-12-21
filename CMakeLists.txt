@@ -47,4 +47,5 @@ gtest_discover_tests(e15)
 
 enable_testing()
 
-add_test(NAME d3_Unit_tests COMMAND $<TARGET_FILE:t3> -s)
+# add_test(NAME d3_Unit_tests COMMAND $<TARGET_FILE:t3> -s)
+add_test(NAME d15tests COMMAND $<TARGET_FILE:e15> WORKING_DIRECTORY 15/tests/)
