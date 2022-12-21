@@ -22,7 +22,7 @@ add_executable(AoC22d2p2 2/main.cpp)
 
 add_executable(d3p1 3/main.cpp 3/main.hpp)
 
-add_executable(t3 3/tests/test.cpp)
+# add_executable(t3 3/tests/test.cpp)
 
 add_executable(d3p2 3/main2.cpp)
 
