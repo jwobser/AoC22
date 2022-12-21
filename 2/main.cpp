@@ -1,7 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#inlucde <exception>
+#include <exception>
 
 std::ifstream input;
 std::string buf;
