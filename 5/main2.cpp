@@ -33,8 +33,12 @@ void moveletters(int src, int dest, int count){
     src -= 1;
     dest -= 1;
 
+    int idx = stacks[src].size() - count;
     for(int i {0}; i < count; i++){
-        stacks[dest].push_back(stacks[src].back());
+        stacks[dest].push_back(stacks[src].at(idx));
+        idx++;
+    }
+    for(int i{0}; i < count; i++){
         stacks[src].pop_back();
     }
 }
@@ -58,15 +62,15 @@ void printstack(void){
     std::cout << '\n';
 }
 
-int main(int argc, char** argv) {
-    (void) argc; // Unused
-    (void) argv; // Unused
+int main(int argc, char** argv){
+    (void)argc; // Unused
+    (void)argv; // Unused
     input.open("input");
-    for (int i{0}; i < MAX_HEIGHT; i++) {
+    for(int i{0}; i < MAX_HEIGHT; i++){
         std::getline(input, buf);
-        for (int j{0}; j < STACK_COUNT; j++) {
+        for(int j{0}; j < STACK_COUNT; j++){
             int letterpos = 1 + (4 * j);
-            if (buf[letterpos] != ' ') {
+            if(buf[letterpos] != ' '){
                 stacks[j].push_front(buf[letterpos]);
             }
         }
@@ -78,7 +82,7 @@ int main(int argc, char** argv) {
     std::getline(input, buf);
 
     int movecount{0};
-    while (!input.eof()) {
+    while(!input.eof()){
         auto op = parseline(buf);
         moveletters(op);
         movecount++;
@@ -89,8 +93,9 @@ int main(int argc, char** argv) {
 
     std::cout << "move count: " << movecount << '\n';
 
-    for (const auto dq: stacks) {
+    for(const auto dq : stacks){
         std::cout << dq.back();
     }
     std::cout << '\n';
 }
+
