@@ -4,6 +4,7 @@
 #include <deque>
 #include <array>
 #include <regex>
+#include <limits>
 
 const unsigned short STACK_COUNT {9};
 const unsigned short MAX_HEIGHT {8};
