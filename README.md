@@ -1,3 +1,5 @@
+[![CMake](https://github.com/jwobser/AoC22/actions/workflows/cmake.yml/badge.svg)](https://github.com/jwobser/AoC22/actions/workflows/cmake.yml)
+
 # AoC22
 Advent of Code 2022
 
