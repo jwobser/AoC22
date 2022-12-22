@@ -4,6 +4,7 @@
 #include <deque>
 #include <array>
 #include <regex>
+#include <limits>
 
 const unsigned short STACK_COUNT {9};
 const unsigned short MAX_HEIGHT {8};
@@ -93,7 +94,7 @@ int main(int argc, char** argv){
 
     std::cout << "move count: " << movecount << '\n';
 
-    for(const auto dq : stacks){
+    for(const auto& dq : stacks){
         std::cout << dq.back();
     }
     std::cout << '\n';

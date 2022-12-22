@@ -4,6 +4,8 @@
 #include <deque>
 #include <array>
 #include <regex>
+#include <ios>
+#include <limits>
 
 const unsigned short STACK_COUNT {9};
 const unsigned short MAX_HEIGHT {8};
@@ -43,7 +45,7 @@ void moveletters(moveop op){
     moveletters(op.src, op.dest, op.count);
 }
 
-std::ostream& operator<<(std::ostream& out, std::deque<char> dq){
+std::ostream& operator<<(std::ostream& out, const std::deque<char>& dq){
     for(const char& c : dq){
         out << c << ' ';
     }
@@ -73,8 +75,9 @@ int main(int argc, char** argv) {
     }
     printstack();
 
-    input.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    input.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	// std::cout << "Long Max: " << std::numeric_limits<long>::max() << '\n';
+    input.ignore(std::numeric_limits<long>::max(), '\n');
+    input.ignore(std::numeric_limits<long>::max(), '\n');
     std::getline(input, buf);
 
     int movecount{0};
@@ -89,7 +92,7 @@ int main(int argc, char** argv) {
 
     std::cout << "move count: " << movecount << '\n';
 
-    for (const auto dq: stacks) {
+    for (const auto& dq: stacks) {
         std::cout << dq.back();
     }
     std::cout << '\n';

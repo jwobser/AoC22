@@ -25,6 +25,8 @@ void printcounts(std::array<unsigned short, 26> a){
 }
 
 int main(int argc, char** argv){
+    (void) argc;
+    (void) argv;
     std::string buf;
     std::ifstream input;
     std::array<unsigned short, 26> counts {};

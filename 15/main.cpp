@@ -25,6 +25,8 @@ namespace std {
 }
 
 int main(int argc, char** argv){
+    (void) argc; // unused
+    (void) argv; // unused
     std::vector<Sensor> sensors;
     read_input("input", sensors);
 

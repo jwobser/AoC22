@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.24)
 set(CMAKE_CXX_COMPILER clang++)
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic")
 
 project(AoC22)
 set(CMAKE_CXX_STANDARD 20)
@@ -22,7 +23,7 @@ add_executable(AoC22d2p2 2/main.cpp)
 
 add_executable(d3p1 3/main.cpp 3/main.hpp)
 
-add_executable(t3 3/tests/test.cpp)
+# add_executable(t3 3/tests/test.cpp)
 
 add_executable(d3p2 3/main2.cpp)
 
@@ -43,8 +44,8 @@ target_link_libraries(e15 GTest::gtest_main)
 
 include(GoogleTest)
 gtest_discover_tests(t15)
-gtest_discover_tests(e15)
+gtest_discover_tests(e15 WORKING_DIRECTORY ../15/tests/)
 
 enable_testing()
 
-add_test(NAME d3_Unit_tests COMMAND $<TARGET_FILE:t3> -s)
+# add_test(NAME d3_Unit_tests COMMAND $<TARGET_FILE:t3> -s)
