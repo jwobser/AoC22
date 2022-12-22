@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.24)
-set(CMAKE_CXX_COMPILER clang++)
-set(CMAKE_CXX_FLAGS "/Wall")
+# :set(CMAKE_CXX_COMPILER clang++)
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    set(CMAKE_CXX_FLAGS "/Wall")
+else()
+    set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic")
+endif()
 
 project(AoC22)
 set(CMAKE_CXX_STANDARD 20)
@@ -35,7 +39,10 @@ add_executable(d5p2 5/main2.cpp)
 
 add_executable(d6p1 6/main.cpp)
 
-add_executable(d8p1 8/main.cpp 8/printarray.cpp 8/ingest.cpp 8/checkvisible.cpp 8/checkvisible.hpp)
+# add_executable(d8p1 8/main.cpp 8/printarray.cpp 8/ingest.cpp 8/checkvisible.cpp 8/matrix.cpp 8/matrix.hpp)
+add_executable(d8p1 8/main.cpp 8/printarray.cpp 8/ingest.cpp  8/matrix.hpp )
+add_executable(e8 8/tests/example.cpp 8/ingest.cpp 8/printarray.cpp 8/matrix.cpp 8/matrix.hpp)
+add_executable(t8 8/tests/tests.cpp 8/matrix.hpp)
 
 add_executable(d15p1 15/main.cpp 15/helpers.cpp 15/helpers.h 15/combine.cpp 15/combine.h)
 add_executable(t15 15/tests/gtest.cpp 15/helpers.cpp 15/helpers.h 15/combine.cpp 15/combine.h)
@@ -43,10 +50,14 @@ add_executable(e15 15/tests/example.cpp 15/helpers.cpp 15/helpers.h 15/combine.c
 
 target_link_libraries(t15 GTest::gtest_main)
 target_link_libraries(e15 GTest::gtest_main)
+target_link_libraries(e8 GTest::gtest_main)
+target_link_libraries(t8 GTest::gtest_main)
 
 include(GoogleTest)
 gtest_discover_tests(t15)
 gtest_discover_tests(e15 WORKING_DIRECTORY ../15/tests/)
+gtest_discover_tests(e8 WORKING_DIRECTORY ../8/tests/)
+gtest_discover_tests(t8 WORKING_DIRECTORY ../8/tests/)
 
 enable_testing()
 

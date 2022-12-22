@@ -6,7 +6,8 @@
 #include <string>
 #include "printarray.hpp"
 #include "ingest.hpp"
-#include "checkvisible.hpp"
+#include "matrix.hpp"
+// #include "checkvisible.hpp"
 
 extern const int HEIGHT{99};
 extern const int WIDTH{99};
@@ -17,9 +18,13 @@ int main(int argc, char** argv){
     (void) argv; //unused
     unsigned short trees[HEIGHT][WIDTH];
     ingest("input", trees[0], HEIGHT, WIDTH);
-    printarr(trees[0]);
+    // printarr(trees[0], HEIGHT, WIDTH);
+    Matrix<unsigned short> m{trees[0], 99,99};
+    std::cout << std::hex << m.ptr << '\n';
+    std::cout << m.last() << '\n';
+    std::cout << std::dec << (m.last() - m.ptr);
 
-    std::cout << std::boolalpha <<
+//    std::cout << std::boolalpha <<
 
 
     return 0;

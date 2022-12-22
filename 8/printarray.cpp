@@ -5,13 +5,10 @@
 #include "printarray.hpp"
 #include <iostream>
 
-extern const int HEIGHT;
-extern const int WIDTH;
-
-void printarr(unsigned short* a){
-    const unsigned short* end = a + (WIDTH * HEIGHT);
+void printarr(unsigned short* a, int h, int w){
+    const unsigned short* end = a + (w * h);
     while(a < end){
-        for(int i{0}; i < WIDTH; i++){
+        for(int i{0}; i < w; i++){
             std::cout << *a++ << '.';
         }
         std::cout << '\n';

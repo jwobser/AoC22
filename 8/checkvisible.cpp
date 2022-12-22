@@ -6,11 +6,7 @@
 #include <stdexcept>
 #include <memory>
 
-extern const int HEIGHT;
-extern const int WIDTH;
-
-
-bool checktree(Tree t, unsigned short* a){
+bool checktree(Tree t, unsigned short* a, int h, int w){
     bool visible {false};
     visible |= checkdir(t, 'N', a);
     visible |= checkdir(t, 'E', a);
@@ -20,30 +16,30 @@ bool checktree(Tree t, unsigned short* a){
 
 }
 
-bool checkdir(Tree& t, char d, const unsigned short* a){
+bool checkdir(Tree& t, char d, const unsigned short* a, int h, int w){
     int step;
     decltype(a) limit;
     switch(d){
         case 'N':
             limit = a;
-            step = -1 * WIDTH;
+            step = -1 * w;
             break;
         case 'E':
-            limit = a + ((1 + t.row) * WIDTH);
+            limit = a + ((1 + t.row) * w);
             step = 1;
             break;
         case 'S':
-            limit = a + (WIDTH * HEIGHT);
-            step = 1 * WIDTH;
+            limit = a + (w * h);
+            step = 1 * w;
             break;
         case 'W':
-            limit = a + (t.row * WIDTH);
+            limit = a + (t.row * w);
             step = -1;
             break;
         default:
             throw std::runtime_error("Check direction not given.");
     }
-    auto p = a + t.col + (t.row * WIDTH);
+    auto p = a + t.col + (t.row * w);
     int h = *p;
     p += step;
 

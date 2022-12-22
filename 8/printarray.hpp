@@ -5,6 +5,6 @@
 #ifndef AOC22_PRINTARRAY_HPP
 #define AOC22_PRINTARRAY_HPP
 
-void printarr(unsigned short*);
+void printarr(unsigned short*, int, int);
 
 #endif //AOC22_PRINTARRAY_HPP

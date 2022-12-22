@@ -12,7 +12,7 @@ void ingest(std::string fname, unsigned short* trees, int height, int width){
         for(int j{0}; j < width; j++){
             int idx = (i * width) + j;
             input >> c;
-            *(trees + idx) = static_cast<unsigned short>(std::atoi(&c));
+            *(trees + idx) = c - '0';
         }
     }
 }
