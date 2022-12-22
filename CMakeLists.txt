@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.24)
 set(CMAKE_CXX_COMPILER clang++)
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic")
+set(CMAKE_CXX_FLAGS "/Wall")
 
 project(AoC22)
 set(CMAKE_CXX_STANDARD 20)
@@ -34,6 +34,8 @@ add_executable(d5p1 5/main.cpp)
 add_executable(d5p2 5/main2.cpp)
 
 add_executable(d6p1 6/main.cpp)
+
+add_executable(d8p1 8/main.cpp 8/printarray.cpp 8/ingest.cpp 8/checkvisible.cpp 8/checkvisible.hpp)
 
 add_executable(d15p1 15/main.cpp 15/helpers.cpp 15/helpers.h 15/combine.cpp 15/combine.h)
 add_executable(t15 15/tests/gtest.cpp 15/helpers.cpp 15/helpers.h 15/combine.cpp 15/combine.h)
