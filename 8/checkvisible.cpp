@@ -7,13 +7,15 @@
 #include <memory>
 
 bool checktree(Tree t, unsigned short* a, int h, int w){
+    if(t.row == 0 || t.col == 0 || t.row == h-1 || t.col == w-1){
+        return true;
+    }
     bool visible {false};
-    visible |= checkdir(t, 'N', a);
-    visible |= checkdir(t, 'E', a);
-    visible |= checkdir(t, 'S', a);
-    visible |= checkdir(t, 'W', a);
+    visible |= checkdir(t, 'N', a, h, w);
+    visible |= checkdir(t, 'E', a, h, w);
+    visible |= checkdir(t, 'S', a, h, w);
+    visible |= checkdir(t, 'W', a, h, w);
     return visible;
-
 }
 
 bool checkdir(Tree& t, char d, const unsigned short* a, int h, int w){
@@ -40,17 +42,17 @@ bool checkdir(Tree& t, char d, const unsigned short* a, int h, int w){
             throw std::runtime_error("Check direction not given.");
     }
     auto p = a + t.col + (t.row * w);
-    int h = *p;
+    int th = *p;
     p += step;
 
     if(step > 0){
         while(p < limit){
-            if(h <= *p){return false;}
+            if(th <= *p){return false;}
             p +=step;
         }
     } else {
-        while(p > limit){
-            if(h <= *p){return false;}
+        while(p >= limit){
+            if(th <= *p){return false;}
             p +=step;
         }
     }
