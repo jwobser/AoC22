@@ -1,13 +1,19 @@
 cmake_minimum_required(VERSION 3.24)
 # :set(CMAKE_CXX_COMPILER clang++)
-if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-    set(CMAKE_CXX_FLAGS "/Wall")
+
+project(AoC22)
+message([[Change Build Config by passing -DCMAKE_BUILD_TYPE=[CONFIG]
+Possible Types are: Release, Profile, Debug]])
+if(NOT DEFINED CMAKE_BUILD_TYPE)
+    message("Using Debug by default")
+    set(CMAKE_BUILD_TYPE Debug)
+endif()
+set(CMAKE_CXX_STANDARD 20)
+if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Wall")
 else()
     set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic")
 endif()
-
-project(AoC22)
-set(CMAKE_CXX_STANDARD 20)
 
 include(FetchContent)
 FetchContent_Declare(
