@@ -40,7 +40,6 @@ TEST(VISBILITY, CountVisible){
     for(int i{0}; i < hght; i++){
         for(int j{0}; j < hght; j++){
             if(checktree({i,j}, arr[0], hght, wdth)){
-                std::cout << "Tree (" << i << ", " << j << ") is visible\n";
                 count++;
             }
         }
