@@ -6,20 +6,21 @@
 #include <stdexcept>
 #include <cassert>
 
-bool checktree(Tree t, unsigned short* a, int h, int w){
+int checktree(Tree t, unsigned short* a, int h, int w){
     if(t.row == 0 || t.col == 0 || t.row == h-1 || t.col == w-1){
-        return true;
+        return 0;
     }
-    bool visible {false};
-    visible |= checkdir(t, 'N', a, h, w);
-    visible |= checkdir(t, 'E', a, h, w);
-    visible |= checkdir(t, 'S', a, h, w);
-    visible |= checkdir(t, 'W', a, h, w);
-    return visible;
+    int score {1};
+    score *= checkdir(t, 'N', a, h, w);
+    score *= checkdir(t, 'E', a, h, w);
+    score *= checkdir(t, 'S', a, h, w);
+    score *= checkdir(t, 'W', a, h, w);
+    return score;
 }
 
-bool checkdir(Tree& t, char d, const unsigned short* a, int h, int w){
+int checkdir(Tree& t, char d, const unsigned short* a, int h, int w){
     int step;
+    int score{1};
     decltype(a) limit;
     switch(d){
         case 'N':
@@ -47,16 +48,16 @@ bool checkdir(Tree& t, char d, const unsigned short* a, int h, int w){
 
     if(step > 0){
         while(p < limit){
-            assert(p < (a + (h * w)));
-            if(th <= *p){return false;}
+            if(th <= *p){break;}
+            score++;
             p +=step;
         }
     } else {
         while(p >= limit){
-            assert(p >= a);
-            if(th <= *p){return false;}
+            if(th <= *p){break;}
+            score++;
             p +=step;
         }
     }
-    return true;
+    return score;
 }

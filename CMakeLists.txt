@@ -47,6 +47,7 @@ add_executable(d6p1 6/main.cpp)
 
 # add_executable(d8p1 8/main.cpp 8/printarray.cpp 8/ingest.cpp 8/checkvisible.cpp 8/matrix.cpp 8/matrix.hpp)
 add_executable(d8p1 8/main.cpp 8/checkvisible.cpp 8/printarray.cpp 8/ingest.cpp  8/matrix.hpp )
+add_executable(d8p2 8/main.cpp 8/checkvisible.cpp 8/printarray.cpp 8/ingest.cpp  8/matrix.hpp )
 add_executable(e8 8/tests/example.cpp 8/ingest.cpp 8/printarray.cpp 8/checkvisible.cpp)
 add_executable(t8 8/tests/tests.cpp 8/matrix.hpp)
 
