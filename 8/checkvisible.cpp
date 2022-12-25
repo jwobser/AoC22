@@ -52,12 +52,14 @@ int checkdir(Tree& t, char d, const unsigned short* a, int h, int w){
             score++;
             p +=step;
         }
+        if(p >= limit){score -= 1;}
     } else {
         while(p >= limit){
             if(th <= *p){break;}
             score++;
             p +=step;
         }
+        if(p < limit){score -= 1;}
     }
     return score;
 }
