@@ -9,8 +9,8 @@ struct Tree{
     int row, col;
 };
 
-bool checkdir(Tree& t, char d, const unsigned short* a, int, int);
-bool checktree(Tree t, unsigned short*, int, int);
+int checkdir(Tree& t, char d, const unsigned short* a, int, int);
+int checktree(Tree t, unsigned short*, int, int);
 
 
 #endif //AOC22_CHECKVISIBLE_HPP
