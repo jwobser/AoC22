@@ -51,6 +51,9 @@ add_executable(d8p2 8/main.cpp 8/checkvisible.cpp 8/printarray.cpp 8/ingest.cpp 
 add_executable(e8 8/tests/example.cpp 8/ingest.cpp 8/checkvisible.cpp)
 add_executable(t8 8/tests/tests.cpp 8/matrix.hpp)
 
+
+add_executable(d9p1 9/main.cpp)
+
 add_executable(d15p1 15/main.cpp 15/helpers.cpp 15/helpers.h 15/combine.cpp 15/combine.h)
 add_executable(t15 15/tests/gtest.cpp 15/helpers.cpp 15/helpers.h 15/combine.cpp 15/combine.h)
 add_executable(e15 15/tests/example.cpp 15/helpers.cpp 15/helpers.h 15/combine.cpp 15/combine.h)
