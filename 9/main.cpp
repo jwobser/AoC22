@@ -3,15 +3,25 @@
 //
 #include <fstream>
 #include <iostream>
-#include <set>
+#include <unordered_set>
 #include <stdexcept>
 #include <cmath>
+
 
 struct Point{
     int x,y;
 
     auto operator<=>(const Point& a) const = default;
 };
+
+namespace std{
+    template <>
+    struct hash<Point>{
+        size_t operator()(const Point& p) const noexcept {
+            return p.x * 10'000 + p.y;
+        }
+    };
+}
 
 void movetail(const int& hx, const int& hy, int& tx, int& ty){
     if(hx == tx && hy == ty){return;}
@@ -31,7 +41,7 @@ void movetail(const int& hx, const int& hy, int& tx, int& ty){
 
 int main(int argc, char** argv){
     std::fstream input("input");
-    std::set<Point> visited;
+    std::unordered_set<Point, std::hash<Point>> visited;
     int xhead {0}, yhead{0};
     int xtail {0}, ytail{0};
     if(input.fail()){return 1;}
