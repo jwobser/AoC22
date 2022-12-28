@@ -2,30 +2,27 @@ package com.jimwobser;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.sql.Array;
 import java.util.Stack;
 
 public class D10 {
-    static Integer registerX = 1;
-    static Integer progCounter = 1;
-    static Integer progressindex = 0;
-    static Integer[] pixels = new Integer[240];
-    private static int MAXCYCLES = 200;
+    /** Simulated 'X' register */
+    private static Integer registerX = 1;
+    /** Simulated program counter */
+    private static Integer progCounter = 1;
+    /** Tracks the next cycle which needs to be reported */
+    private static Integer progressindex = 0;
+    private static Integer[] pixels = new Integer[240];
+    private static int MAXCYCLES = 240;
     private static Stack<Integer> priorities = new Stack<Integer>();
-    static Integer[] checkcyles = {20, 60, 100, 140, 180, 220, 10_000_000};
-    static RandomAccessFile input;
+    private static Integer[] checkcyles = {20, 60, 100, 140, 180, 220, 10_000_000};
+    private static RandomAccessFile input;
+
     public static void main(String[] args) throws IOException {
-        System.out.printf("Pixel Array Size: %d\n", pixels.length);
         var infilename = "d10.input";
-        Boolean useExample = false;
-        if(args.length == 1){
-            infilename = args[0];
-            useExample = true;
-        }
         input = new RandomAccessFile(infilename, "r");
 
         var instruction = getop(input);
-        while(progCounter <= 240) {
+        while(progCounter <= MAXCYCLES) {
             switch (instruction.type) {
                 case addX:
                     if (checkcyles[progressindex] - progCounter < 2) {
@@ -53,16 +50,18 @@ public class D10 {
             }
             instruction = getop(input);
         }
-        var sum = priorities.stream().reduce(0, (a,b) -> a+b);
-        pixels[150] = 9;
 
+
+        var sum = priorities.stream().reduce(0, (a,b) -> a+b);
         System.out.printf("Sum: %d\n", priorities.stream().reduce(0, (a,b) -> a+b));
+
         for(int i = 0; i < 240; ++i){
             if(i % 40 == 0){System.out.println();}
             if(pixels[i] == null) {System.out.print("  ");} else {System.out.print("\u2588\u2588");}
         }
     }
 
+    /** Update pixel array based on sprite position */
     private static void draw() {
         Integer column = (progCounter % 40) - 1 ;
         if(Math.abs(registerX - column) <= 1){
@@ -70,25 +69,31 @@ public class D10 {
         }
     }
 
-    private static Intstruction getop(RandomAccessFile input) throws IOException{
+    /** Read input and parse into a processor instruction.
+     *
+     * @param input - the input file to read
+     * @return The parsed {@code Instruction}
+     * @throws IOException
+     */
+    private static Instruction getop(RandomAccessFile input) throws IOException{
         String in = input.readLine();
         if(in == null){
-            return new Intstruction(Intstruction.Type.EOF, 0);
+            return new Instruction(Instruction.Type.EOF, 0);
         }
         var commands = in.split(" ");
         if(commands.length == 2){
-            return new Intstruction(Intstruction.Type.addX, Integer.parseInt(commands[1]));
+            return new Instruction(Instruction.Type.addX, Integer.parseInt(commands[1]));
         } else {
-            return new Intstruction(Intstruction.Type.noop, 0);
+            return new Instruction(Instruction.Type.noop, 0);
         }
     }
 }
 
-class Intstruction {
+class Instruction {
     Type type;
     int value;
     enum Type {EOF, noop, addX};
-    public Intstruction(Type type, int value){
+    public Instruction(Type type, int value){
         this.value = value;
         this.type = type;
     }
