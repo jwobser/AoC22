@@ -51,29 +51,6 @@ public class D10 {
                     progressindex++;
                 }
             }
-            /*
-            if(registerX >= 1 && registerX < 239) {
-                System.out.println("Register X: " + registerX.toString());
-                pixels[registerX - 1] = 1;
-                pixels[registerX] = 1;
-                pixels[registerX + 1] = 1;
-            } else {
-                switch (registerX){
-                    case 0:
-                        pixels[1] = 1; //fallthrough
-                    case -1:
-                        pixels[0] = 1;
-                        break;
-                    case 239:
-                        pixels[238] = 1; //fallthrough
-                    case 240:
-                        pixels[239] = 1;
-                        break;
-                    default:
-                        break;
-                }
-            }
-             */
             instruction = getop(input);
         }
         var sum = priorities.stream().reduce(0, (a,b) -> a+b);
@@ -81,10 +58,8 @@ public class D10 {
 
         System.out.printf("Sum: %d\n", priorities.stream().reduce(0, (a,b) -> a+b));
         for(int i = 0; i < 240; ++i){
-//            System.out.printf("%4d", i);
             if(i % 40 == 0){System.out.println();}
             if(pixels[i] == null) {System.out.print("  ");} else {System.out.print("\u2588\u2588");}
-//            System.out.print(pixels[i]);
         }
     }
 
