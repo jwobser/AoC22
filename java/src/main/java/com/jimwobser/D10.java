@@ -3,8 +3,6 @@ package com.jimwobser;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Stack;
-import static java.lang.System.out;
-
 
 public class D10 {
     private static int MAXCYCLES = 200;
@@ -25,9 +23,6 @@ public class D10 {
 
         var instruction = getop(input);
         while(instruction.type != Intstruction.Type.EOF) {
-            System.out.print(instruction.type.toString());
-            System.out.print(" ");
-            System.out.println(instruction.value);
             switch (instruction.type) {
                 case addX:
                     if (checkcyles[progressindex] - progCounter < 2) {
@@ -43,7 +38,6 @@ public class D10 {
                 default:
                     progCounter++;
             }
-            System.out.printf("%4d -- X: %3d\n", progCounter, registerX);
             if(progressindex >= checkcyles.length){
                 break;
             }
@@ -54,25 +48,7 @@ public class D10 {
             instruction = getop(input);
         }
         var sum = priorities.stream().reduce(0, (a,b) -> a+b);
-        if(useExample){
-            try {
-                assert (priorities.elementAt(0) == 420);
-                assert (priorities.elementAt(1) == 1140);
-                assert (priorities.elementAt(2) == 1800);
-                assert (priorities.elementAt(3) == 2940);
-                assert (priorities.elementAt(4) == 2880);
-                assert (priorities.elementAt(5) == 3960);
-                assert (sum == 13140);
-            }
-            catch (AssertionError e){
-                System.out.println("Test Cases Incorrect");
-            }
-        }
-        try{ assert(sum > 12800);}
-        catch (AssertionError e){ System.out.println("Sum too low");};
-        try{assert(sum < 17280);}
-        catch (AssertionError e){ System.out.printf("Sum [%d] too high\n", sum);};
-        priorities.forEach(priority -> System.out.println(priority));
+
         System.out.printf("Sum: %d", priorities.stream().reduce(0, (a,b) -> a+b));
     }
 
