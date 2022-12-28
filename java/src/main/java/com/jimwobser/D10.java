@@ -2,27 +2,30 @@ package com.jimwobser;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.sql.Array;
 import java.util.Stack;
 
 public class D10 {
+    static Integer registerX = 1;
+    static Integer progCounter = 1;
+    static Integer progressindex = 0;
+    static Integer[] pixels = new Integer[240];
     private static int MAXCYCLES = 200;
     private static Stack<Integer> priorities = new Stack<Integer>();
-    static Integer[] checkcyles = {20, 60, 100, 140, 180, 220};
+    static Integer[] checkcyles = {20, 60, 100, 140, 180, 220, 10_000_000};
     static RandomAccessFile input;
     public static void main(String[] args) throws IOException {
+        System.out.printf("Pixel Array Size: %d\n", pixels.length);
         var infilename = "d10.input";
         Boolean useExample = false;
         if(args.length == 1){
             infilename = args[0];
             useExample = true;
         }
-        Integer registerX = 1;
-        Integer progCounter = 1;
-        Integer progressindex = 0;
         input = new RandomAccessFile(infilename, "r");
 
         var instruction = getop(input);
-        while(instruction.type != Intstruction.Type.EOF) {
+        while(progCounter <= 240) {
             switch (instruction.type) {
                 case addX:
                     if (checkcyles[progressindex] - progCounter < 2) {
@@ -30,26 +33,66 @@ public class D10 {
                         var priority = cycle * registerX;
                         priorities.push(priority);
                     }
+                    draw();
+                    progCounter++;
+                    draw();
+                    progCounter++;
                     registerX += instruction.value;
-                    progCounter += 2;
                     break;
                 case EOF:
                 case noop:
                 default:
+                    draw();
                     progCounter++;
             }
-            if(progressindex >= checkcyles.length){
-                break;
+            if(progressindex < checkcyles.length) {
+                if (progCounter == checkcyles[progressindex]) {
+                    priorities.push(registerX * progCounter);
+                    progressindex++;
+                }
             }
-            if (progCounter == checkcyles[progressindex]) {
-                priorities.push(registerX * progCounter);
-                progressindex++;
+            /*
+            if(registerX >= 1 && registerX < 239) {
+                System.out.println("Register X: " + registerX.toString());
+                pixels[registerX - 1] = 1;
+                pixels[registerX] = 1;
+                pixels[registerX + 1] = 1;
+            } else {
+                switch (registerX){
+                    case 0:
+                        pixels[1] = 1; //fallthrough
+                    case -1:
+                        pixels[0] = 1;
+                        break;
+                    case 239:
+                        pixels[238] = 1; //fallthrough
+                    case 240:
+                        pixels[239] = 1;
+                        break;
+                    default:
+                        break;
+                }
             }
+             */
             instruction = getop(input);
         }
         var sum = priorities.stream().reduce(0, (a,b) -> a+b);
+        pixels[150] = 9;
 
-        System.out.printf("Sum: %d", priorities.stream().reduce(0, (a,b) -> a+b));
+        System.out.printf("Sum: %d\n", priorities.stream().reduce(0, (a,b) -> a+b));
+        for(int i = 0; i < 240; ++i){
+//            System.out.printf("%4d", i);
+            if(i % 40 == 0){System.out.println();}
+            if(pixels[i] == null) {System.out.print("  ");} else {System.out.print("\u2588\u2588");}
+//            System.out.print(pixels[i]);
+        }
+    }
+
+    private static void draw() {
+        Integer column = (progCounter % 40) - 1 ;
+        if(Math.abs(registerX - column) <= 1){
+            pixels[progCounter - 1] = 1;
+        }
     }
 
     private static Intstruction getop(RandomAccessFile input) throws IOException{
