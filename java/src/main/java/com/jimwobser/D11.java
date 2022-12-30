@@ -14,31 +14,27 @@ public class D11 {
     public static void main(String[] args) throws IOException {
         var input = new BufferedReader(new FileReader("d11.input"), 10_000);
         String inline = input.readLine();
-        out.println(inline);
-        out.println(Integer.parseInt(inline.split(" ")[1].replace(':', ' ').strip()));
         var items = input.readLine().strip().split(" ");
         Stack<Long> itemlist = new Stack<>();
-        out.print("Items: ");
         for(int i = 2; i < items.length; i++){
             Long itemval = Long.parseLong(items[i].replace(',', ' ').strip());
             itemlist.push(itemval);
-            out.printf("%d, ", itemval);
         }
-        out.println(' ');
         inline = input.readLine();
-        var regP = Pattern.compile("= old ([+*]) ([0-9]+|old)", Pattern.DOTALL);
+        var regP = Pattern.compile("= old ([+*]) ([0-9]+|old)");
         var matches = regP.matcher(inline);
-        out.println(inline);
-        out.printf("Matches found: %b", matches.matches());
-        var operator = matches.group(0).charAt(0);
+        matches.find();
+        var operator = matches.group(1).charAt(0);
 
         Monkey.Operation op;
+        int opval = 0;
         switch(operator){
             case '*':
-                if(matches.group(1) == "old"){
+                if(matches.group(2) == "old"){
                     op = Monkey.Operation.Square;
                 } else {
                     op = Monkey.Operation.Multiply;
+                    opval = Integer.parseInt(matches.group(2));
                 }
                 break;
             case '+':
@@ -47,6 +43,28 @@ public class D11 {
             default:
                 throw new RuntimeException("Bad operator");
         }
+
+        inline = input.readLine();
+        regP = Pattern.compile("(\\d+)");
+        matches = regP.matcher(inline);
+        out.println(matches.find());
+
+        int testval = Integer.parseInt(matches.group(1));
+
+        inline = input.readLine();
+        matches = regP.matcher(inline);
+        matches.find();
+
+        int destTrue = Integer.parseInt(matches.group(1));
+
+
+        inline = input.readLine();
+        matches = regP.matcher(inline);
+        matches.find();
+
+        int destFalse = Integer.parseInt(matches.group(1));
+
+        out.printf("Test Val: %d\tTrue Destination: %d\tFalse Destination: %d\n", testval, destTrue, destFalse);
 
 
 //            Integer num = Integer.getInteger(inline.replace(':',' ').strip().split(" ")[1]);
