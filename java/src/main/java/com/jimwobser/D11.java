@@ -3,9 +3,11 @@ package com.jimwobser;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Deque;
 import java.util.Stack;
 import java.util.Vector;
 import java.util.regex.*;
+import java.util.ArrayDeque;
 
 import static java.lang.System.*;
 
@@ -65,6 +67,8 @@ public class D11 {
         int destFalse = Integer.parseInt(matches.group(1));
 
         out.printf("Test Val: %d\tTrue Destination: %d\tFalse Destination: %d\n", testval, destTrue, destFalse);
+        Monkey m = new Monkey(0, itemlist, op, testval, destTrue, destFalse);
+        m.print();
 
 
 //            Integer num = Integer.getInteger(inline.replace(':',' ').strip().split(" ")[1]);
@@ -74,12 +78,13 @@ public class D11 {
 
 class Monkey{
     enum Operation {Multiply, Add, Square};
-    java.util.Deque<Long> items;
+    java.util.ArrayDeque<Long> items;
     Operation op;
     Integer number, destinationFalse, destinationTrue;
     Integer testDivisor;
 
     public Monkey(int n, java.util.Stack<Long> itemlist, Operation op, int testD, int destF, int destT){
+        items = new ArrayDeque<Long>();
         number = n;
         this.op = op;
         testDivisor = testD;
@@ -89,5 +94,9 @@ class Monkey{
             items.push(i);
         }
 
+    }
+
+    public void print(){
+        out.printf("n: %d\n%s\nmod: %d  T->%d, F->%d", number, op.toString(), testDivisor, destinationTrue, destinationFalse);
     }
 }
