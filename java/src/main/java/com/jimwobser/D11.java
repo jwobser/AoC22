@@ -17,6 +17,7 @@ public class D11 {
     public static void main(String[] args) throws IOException {
         Monkey.setMonkeylist(monkeys);
         input = new BufferedReader(new FileReader("d11.input"), 10_000);
+        int gcd = 1;
 
         var parser = new InputParser(input);
         for (int i = 0; i < 8; i++) {
@@ -25,6 +26,7 @@ public class D11 {
             var inspectionop = parser.getOp();
             var inspectMagnitude = parser.opval;
             var testdivisor = parser.getTest();
+            gcd *= testdivisor;
             var trueDest = parser.getTrueDest();
             var falseDest = parser.getFalseDest();
             input.readLine();
@@ -38,7 +40,7 @@ public class D11 {
          */
         for(int i = 0; i < 10_000; i++){
             for(var m : monkeys){
-                m.inspectItems();
+                m.inspectItems(gcd);
             }
         }
 
@@ -157,7 +159,7 @@ class Monkey{
         items.add(item);
     }
 
-    public void inspectItems() {
+    public void inspectItems(int gcd) {
         for(Long i : items){
             inspections++;
             switch(op){
@@ -166,6 +168,7 @@ class Monkey{
                 case Multiply -> i *= inspectMagnitude;
             }
 //            i = i / 3;
+            i = i % gcd;
             Boolean divtest = (i % testDivisor) == 0;
             int target;
             if(divtest){
