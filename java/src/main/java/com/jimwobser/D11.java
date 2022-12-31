@@ -1,38 +1,97 @@
 package com.jimwobser;
 
+import javax.management.monitor.MonitorSettingException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Deque;
-import java.util.Stack;
-import java.util.Vector;
+import java.util.*;
 import java.util.regex.*;
-import java.util.ArrayDeque;
 
 import static java.lang.System.*;
 
 public class D11 {
-    private static java.util.Vector<Monkey> monkeys = new Vector<>();
+    private static java.util.ArrayList<Monkey> monkeys = new ArrayList<>();
+    public static BufferedReader input;
+
     public static void main(String[] args) throws IOException {
-        var input = new BufferedReader(new FileReader("d11.input"), 10_000);
-        String inline = input.readLine();
-        var items = input.readLine().strip().split(" ");
-        Stack<Long> itemlist = new Stack<>();
-        for(int i = 2; i < items.length; i++){
-            Long itemval = Long.parseLong(items[i].replace(',', ' ').strip());
-            itemlist.push(itemval);
+        Monkey.setMonkeylist(monkeys);
+        input = new BufferedReader(new FileReader("d11.input"), 10_000);
+
+        var parser = new InputParser(input);
+        for (int i = 0; i < 8; i++) {
+            var monkeynum = parser.getMonkey();
+            var itemlist = parser.getItems();
+            var inspectionop = parser.getOp();
+            var inspectMagnitude = parser.opval;
+            var testdivisor = parser.getTest();
+            var trueDest = parser.getTrueDest();
+            var falseDest = parser.getFalseDest();
+            input.readLine();
+            monkeys.add(new Monkey(monkeynum, itemlist, inspectionop, inspectMagnitude, testdivisor, falseDest, trueDest));
         }
-        inline = input.readLine();
+        /*
+        for(var m : monkeys){
+            m.print();
+        }
+
+         */
+        for(int i = 0; i < 20; i++){
+            for(var m : monkeys){
+                m.inspectItems();
+            }
+        }
+
+        for(var m : monkeys){
+            m.print();
+        }
+        var maxmonk = monkeys.stream().max((Monkey m1, Monkey m2) -> {return m1.inspections - m2.inspections;});
+        monkeys.sort((m1, m2) -> {return m2.inspections - m1.inspections;});
+        for(int i = 0; i < 2; i++){
+            out.println(monkeys.get(i).inspections);
+        }
+        out.println(monkeys.get(0).inspections * monkeys.get(1).inspections);
+//        maxmonk.ifPresent(m -> out.println(m.inspections));
+    }
+
+}
+
+class InputParser{
+    protected static BufferedReader input;
+    protected static java.util.regex.Pattern digitPattern = java.util.regex.Pattern.compile("(\\d+)");
+    public int opval;
+    public InputParser(BufferedReader input){
+        InputParser.input =  input;
+        opval = 0;
+    }
+
+    public int getMonkey() throws IOException{
+        String inline = input.readLine();
+        var matcher = digitPattern.matcher(inline);
+        assert(matcher.find());
+        return Integer.parseInt(matcher.group().strip());
+    }
+
+    public Stack<Long> getItems() throws IOException{
+        var retval = new Stack<Long>();
+        String inline = input.readLine();
+        var matches = digitPattern.matcher(inline);
+        while(matches.find()){
+            retval.push(Long.parseLong(matches.group()));
+        }
+        return retval;
+    }
+
+    public Monkey.Operation getOp() throws IOException{
+        String inline = input.readLine();
         var regP = Pattern.compile("= old ([+*]) ([0-9]+|old)");
         var matches = regP.matcher(inline);
         matches.find();
         var operator = matches.group(1).charAt(0);
 
         Monkey.Operation op;
-        int opval = 0;
         switch(operator){
             case '*':
-                if(matches.group(2) == "old"){
+                if(matches.group(2).compareTo("old") == 0){
                     op = Monkey.Operation.Square;
                 } else {
                     op = Monkey.Operation.Multiply;
@@ -41,62 +100,104 @@ public class D11 {
                 break;
             case '+':
                 op = Monkey.Operation.Add;
+                opval = Integer.parseInt(matches.group(2));
                 break;
             default:
                 throw new RuntimeException("Bad operator");
         }
+        return op;
+    }
 
-        inline = input.readLine();
-        regP = Pattern.compile("(\\d+)");
-        matches = regP.matcher(inline);
-        out.println(matches.find());
+    public int getTest() throws IOException{
+        String inline = input.readLine();
+        var matcher = digitPattern.matcher(inline);
+        assert(matcher.find());
+        return Integer.parseInt(matcher.group());
+    }
 
-        int testval = Integer.parseInt(matches.group(1));
+    public int getTrueDest() throws IOException{
+        String inline = input.readLine();
+        var matcher = digitPattern.matcher(inline);
+        assert(matcher.find());
+        int retval =  Integer.parseInt(matcher.group());
+        assert(retval >= 0 && retval <= 7);
+        return retval;
+    }
 
-        inline = input.readLine();
-        matches = regP.matcher(inline);
-        matches.find();
-
-        int destTrue = Integer.parseInt(matches.group(1));
-
-
-        inline = input.readLine();
-        matches = regP.matcher(inline);
-        matches.find();
-
-        int destFalse = Integer.parseInt(matches.group(1));
-
-        out.printf("Test Val: %d\tTrue Destination: %d\tFalse Destination: %d\n", testval, destTrue, destFalse);
-        Monkey m = new Monkey(0, itemlist, op, testval, destTrue, destFalse);
-        m.print();
-
-
-//            Integer num = Integer.getInteger(inline.replace(':',' ').strip().split(" ")[1]);
-//            out.printf("Monkey number: %d\n", num);
+    public int getFalseDest() throws IOException{
+        String inline = input.readLine();
+        var matcher = digitPattern.matcher(inline);
+        assert(matcher.find());
+        int retval =  Integer.parseInt(matcher.group());
+        assert(retval >= 0 && retval <= 7);
+        return retval;
     }
 }
+
 
 class Monkey{
     enum Operation {Multiply, Add, Square};
     java.util.ArrayDeque<Long> items;
     Operation op;
-    Integer number, destinationFalse, destinationTrue;
+    Integer number, destinationFalse, destinationTrue, inspectMagnitude;
     Integer testDivisor;
+    Integer inspections;
+    public static ArrayList<Monkey> monkeylist;
 
-    public Monkey(int n, java.util.Stack<Long> itemlist, Operation op, int testD, int destF, int destT){
+    public static void setMonkeylist(ArrayList<Monkey> mlist){
+        monkeylist = mlist;
+    }
+
+    public void additem(Long item){
+        items.add(item);
+    }
+
+    public void inspectItems() {
+        for(Long i : items){
+            inspections++;
+            switch(op){
+                case Square -> i = i * i;
+                case Add -> i += inspectMagnitude;
+                case Multiply -> i *= inspectMagnitude;
+            }
+            i = i / 3;
+            Boolean divtest = (i % testDivisor) == 0;
+            int target;
+            if(divtest){
+                target = destinationTrue;
+            } else {
+                target = destinationFalse;
+            }
+            monkeylist.get(target).additem(i);
+        }
+        items.clear();
+    }
+
+    public Monkey(int n, java.util.Stack<Long> itemlist, Operation op, int magntiude, int testD, int destF, int destT){
         items = new ArrayDeque<Long>();
         number = n;
         this.op = op;
         testDivisor = testD;
         destinationFalse = destF;
         destinationTrue = destT;
+        inspections = 0;
+        inspectMagnitude = magntiude;
         for(var i : itemlist){
-            items.push(i);
+            items.add(i);
+//            items.push(i); // change to LIFO stack instead
         }
 
     }
 
     public void print(){
-        out.printf("n: %d\n%s\nmod: %d  T->%d, F->%d", number, op.toString(), testDivisor, destinationTrue, destinationFalse);
+        out.printf("No. %d\t", number);
+        out.print(op.toString() + '\t');
+        out.print(inspectMagnitude.toString() + '\t');
+        out.printf("Inspection count: %d\n", inspections);
+        out.print("Items: ");
+        out.println(items.toString());
+        out.printf("Mod div: %d\t", testDivisor);
+        out.printf("true->: %d\t", destinationTrue);
+        out.printf("false->: %d\n", destinationFalse);
     }
 }
