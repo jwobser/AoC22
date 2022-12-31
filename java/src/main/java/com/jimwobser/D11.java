@@ -4,6 +4,7 @@ import javax.management.monitor.MonitorSettingException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.*;
 import java.util.regex.*;
 
@@ -35,7 +36,7 @@ public class D11 {
         }
 
          */
-        for(int i = 0; i < 20; i++){
+        for(int i = 0; i < 10_000; i++){
             for(var m : monkeys){
                 m.inspectItems();
             }
@@ -49,7 +50,11 @@ public class D11 {
         for(int i = 0; i < 2; i++){
             out.println(monkeys.get(i).inspections);
         }
-        out.println(monkeys.get(0).inspections * monkeys.get(1).inspections);
+        BigInteger monkeyBusiness;
+        monkeyBusiness = BigInteger.valueOf(monkeys.get(0).inspections);
+        monkeyBusiness = monkeyBusiness.multiply(BigInteger.valueOf(monkeys.get(1).inspections));
+        out.println(monkeyBusiness);
+//        out.println(monkeyBusiness.toString());
 //        maxmonk.ifPresent(m -> out.println(m.inspections));
     }
 
@@ -160,7 +165,7 @@ class Monkey{
                 case Add -> i += inspectMagnitude;
                 case Multiply -> i *= inspectMagnitude;
             }
-            i = i / 3;
+//            i = i / 3;
             Boolean divtest = (i % testDivisor) == 0;
             int target;
             if(divtest){
