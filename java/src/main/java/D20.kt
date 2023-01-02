@@ -6,18 +6,25 @@ import kotlin.collections.ArrayList
 fun main(args: Array<String>){
     var inputs = ArrayList<CoordinateNode>()
     ingest("d20.input", inputs)
-//    inputs.forEach { println(it) }
-    println("Linecount: ${inputs.size}")
-    println("Max: ${inputs.maxBy { it.value }}")
-    println("Min: ${inputs.minBy { it.value }}")
 
-    println("Zero index: ${inputs.find{it.value == 0}!!.idx}")
-    var inset = inputs.toSet()
-    var intlist = LinkedList<Int>()
-    inputs.forEach {intlist.add(it.value)}
-    println(intlist.joinToString(",","[","]"))
-    println("Set size: ${inset.size}")
-    println("All unique: ${inset.size == inputs.size}")
+    var destIdx = inputs[0].getNewidx()
+    var sourceIdx = inputs[0].idx
+    println("Current: $sourceIdx, Destination: $destIdx")
+    if(destIdx - sourceIdx > 0){
+        // Move towards end
+        println("Moving towards end")
+        var op = fun(n: CoordinateNode){
+            if(n.idx <= sourceIdx || n.idx > destIdx) return
+            n.idx -= 1
+        }
+        inputs.forEach(op)
+        inputs[0].idx = destIdx
+        inputs.forEach{print("${it.idx}, ")}
+        print('\n')
+    } else {
+        // Move towards front
+    }
+
 }
 
 fun ingest(name: String, dest: ArrayList<CoordinateNode> ){
@@ -44,7 +51,7 @@ data class CoordinateNode(val value: Int, var idx: Int){
         return offset
     }
 
-    fun getNewidx(){
-        (idx + this.getOffset()) % 5000
+    fun getNewidx(): Int{
+        return (idx + this.getOffset()) % 5000
     }
 }
