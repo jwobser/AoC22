@@ -7,25 +7,46 @@ fun main(args: Array<String>){
     var inputs = ArrayList<CoordinateNode>()
     ingest("d20.input", inputs)
 
-    var destIdx = inputs[0].getNewidx()
-    var sourceIdx = inputs[0].idx
-    println("Current: $sourceIdx, Destination: $destIdx")
-    if(destIdx - sourceIdx > 0){
-        // Move towards end
-        println("Moving towards end")
-        var op = fun(n: CoordinateNode){
-            if(n.idx <= sourceIdx || n.idx > destIdx) return
-            n.idx -= 1
+    // O(N^2) loop
+    for(i in 0..4999) {
+        var destIdx = inputs[i].getNewidx()
+        var sourceIdx = inputs[i].idx
+        println("Current: $sourceIdx, Destination: $destIdx")
+        if (destIdx - sourceIdx > 0) {
+            // Move towards end
+            var op = fun(n: CoordinateNode) {
+                if (n.idx <= sourceIdx || n.idx > destIdx) return
+                n.idx -= 1
+            }
+            inputs.forEach(op)
+        } else {
+            // Move towards front
+            var op = fun(n: CoordinateNode) {
+                if (n.idx >= sourceIdx || n.idx < destIdx) return
+                n.idx += 1
+            }
+            inputs.forEach(op)
         }
-        inputs.forEach(op)
-        inputs[0].idx = destIdx
-        inputs.forEach{print("${it.idx}, ")}
-        print('\n')
-    } else {
-        // Move towards front
+        inputs[i].idx = destIdx
     }
+    val setofidxs: MutableSet<Int> = mutableSetOf()
+    inputs.forEach {setofidxs.add(it.idx)}
+    assert(setofidxs.size == 5000)
+
+//    inputs.sortBy{it.idx}
+    val zeroOffset = inputs.find{it.value == 0}!!.idx
+    var sum = 0
+    for(k in listOf<Int>(1000, 2000, 3000)){
+        val node = inputs.find{it.idx == (k + zeroOffset) % 5000}!!
+        println("$k: ${node.value}")
+        sum += node.value
+    }
+    println(inputs.toString())
+    println("Sum of 1000, 2000, 3000th value after zero: $sum")
+
 
 }
+
 
 fun ingest(name: String, dest: ArrayList<CoordinateNode> ){
     val file = BufferedReader(FileReader(name))
@@ -53,5 +74,9 @@ data class CoordinateNode(val value: Int, var idx: Int){
 
     fun getNewidx(): Int{
         return (idx + this.getOffset()) % 5000
+    }
+
+    override fun toString(): String{
+        return "($value, $idx)"
     }
 }
