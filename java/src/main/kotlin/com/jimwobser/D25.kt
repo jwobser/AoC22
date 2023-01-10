@@ -9,11 +9,39 @@ import kotlin.math.ln
 import kotlin.math.pow
 
 fun main(args: Array<String>){
+    println("hello world")
     val inputs = ArrayList<String>()
     ingest("d25.input", inputs)
     for(s in inputs){
-        print("$s \t : ${parseLine(s)}")
+        println("$s \t : ${parseLine(s)}")
     }
+    val inputarrays = inputs.map { parseLine(it) }
+    val output = inputarrays.reduce { a, b -> addIntArray(a, b) }
+    println(output)
+    for(i in 0 until output.size - 1){
+        while(output[i] > 2){
+            output[i+1] += 1
+            output[i] -= 5
+        }
+        while(output[i] < -2){
+            output[i+1] -= 1
+            output[i] += 5
+        }
+    }
+    println(output)
+    val sb = StringBuilder()
+    for(v in output.reversed()){
+        sb.append(
+            when(v){
+                -2 -> '='
+                -1 -> '-'
+                else -> v
+            }
+        )
+    }
+    println(sb.toString())
+//    println(inputarrays.reduce{a,b -> addIntArray(a,b)})
+    /*
     println(inputs)
     println(inputs.map{ parseLine(it)})
     // Overflows a signed 32-bit int, so have to convert to unsigned.
@@ -25,6 +53,8 @@ fun main(args: Array<String>){
 //    inputs.forEach{println(it)}
 //    val snafuSum: BigInteger = inputs.map({parseLine(it).toBigInteger()}).sumOf { it }
 //    println("Snafu Sum: $snafuSum")
+
+     */
 
 }
 
@@ -71,23 +101,32 @@ fun convertToSNAFU(v: ArrayList<Int>): String{
     return result.toString()
 }
 
-fun parseLine(line: String): Int{
-    if(line.isEmpty()) return 0
-    var total = 0
-    var idx = line.length - 1
-    var base = 1
-    while(idx >= 0){
-        val c = line.get(idx)
-        val v = when (c){
-            '=' -> -2
-            '-' -> -1
-            else -> c.toString().toInt()
+inline fun addIntArray(a: ArrayList<Int>, b: ArrayList<Int>): ArrayList<Int> {
+    var result = ArrayList<Int>()
+    if( a.size > b.size) {
+        a.forEach { result.add(it) }
+        for(i in 0 until b.size){
+            result[i] += b[i]
         }
-        total += (base * v)
-        base *= 5
-        idx--
+    } else {
+        b.forEach(){result.add(it)}
+        for(i in 0 until a.size){
+            result[i] += a[i]
+        }
     }
-    return total
+    return result
+}
+fun parseLine(line: String): ArrayList<Int> {
+    val result = ArrayList<Int>()
+    for (i in line.length - 1 downTo 0) {
+        val c = line.get(i)
+        result.add(
+            when (c) {
+                '=' -> -2
+                '-' -> -1
+                else -> c.toString().toInt() } )
+    }
+    return result
 }
 
 fun ingest(name: String, dest: ArrayList<String> ){

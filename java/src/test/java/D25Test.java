@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class D25Test {
+    /*
     @Test
     public void parseLineExample(){
         Integer result = D25Kt.parseLine("1=-0-2");
@@ -61,6 +62,21 @@ public class D25Test {
         expected = new ArrayList<>(List.of(1,-2,-1,0,-1, 2));
         assertEquals(expected, result);
 //        System.out.println(result);
+    }
+
+    */
+
+    @Test
+    public void addArrays(){
+        var expected = new ArrayList<>(List.of(0,1,1,10));
+        var a = new ArrayList<>(List.of(0,1,1,1));
+        var b = new ArrayList<>(List.of(0,0,0,9));
+        assertEquals(expected, D25Kt.addIntArray(a,b));
+
+        expected = new ArrayList<>(List.of(0,10,10,10,9));
+        a = new ArrayList<>(List.of(0,1,1,1));
+        b = new ArrayList<>(List.of(0,9,9,9,9));
+        assertEquals(expected, D25Kt.addIntArray(a,b));
     }
 
 }
