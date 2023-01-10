@@ -6,7 +6,7 @@ import java.io.FileReader
 fun main(args: Array<String>) {
     val inputs = ArrayList<String>()
     ingest("d25.input", inputs)
-    val output = inputs.map { parseLine(it) }.reduce { a, b -> addIntArray(a, b) }
+    val output = inputs.map { parseLine(it) }.reduce(::addIntArray)
     for(i in 0 until output.size - 1){
         while(output[i] > 2){
             output[i+1] += 1
@@ -47,8 +47,7 @@ fun addIntArray(a: ArrayList<Int>, b: ArrayList<Int>): ArrayList<Int> {
 }
 fun parseLine(line: String): ArrayList<Int> {
     val result = ArrayList<Int>()
-    for (i in line.length - 1 downTo 0) {
-        val c = line[i]
+    for (c in line.reversed()) {
         result.add(
             when (c) {
                 '=' -> -2
